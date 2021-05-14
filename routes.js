@@ -20,17 +20,21 @@ app.config([
 				templateUrl: "views/landing.htm",
 				controller: "mainController",
 			})
-			.when("/access?:code", {
+			.when("/access", {
 				templateUrl: "views/access.htm",
 				controller: "accessController",
+			})
+			.when("/auth", {
+				templateUrl: "views/landing.htm",
+				controller: "authController",
 			})
 			.when("/user/:account_id", {
 				templateUrl: "views/user.htm",
 				controller: "user",
 			});
-            
+
 		$locationProvider.html5Mode({
-			enabled: true,
+			enabled: false,
 			requireBase: true,
 			rewriteLinks: true,
 		});

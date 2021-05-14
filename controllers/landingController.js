@@ -7,6 +7,6 @@ app.controller("mainController", [
 	"$cookies",
 
 	function ($scope, $log, $location, $http, $rootScope, $cookies) {
-		$log.info($location);
+		$log.info($rootScope);
 	},
 ]);
