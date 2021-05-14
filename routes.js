@@ -28,6 +28,10 @@ app.config([
 				templateUrl: "views/landing.htm",
 				controller: "authController",
 			})
+			.when("/index.html", {
+				templateUrl: "views/landing.htm",
+				controller: "testController",
+			})
 			.when("/user/:account_id", {
 				templateUrl: "views/user.htm",
 				controller: "user",
