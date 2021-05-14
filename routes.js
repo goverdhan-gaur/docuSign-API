@@ -18,9 +18,9 @@ app.config([
 		$routeProvider
 			.when("/", {
 				templateUrl: "views/landing.htm",
-				controller: "landing",
+				controller: "mainController",
 			})
-			.when("/access", {
+			.when("/access?:code", {
 				templateUrl: "views/access.htm",
 				controller: "accessController",
 			})
@@ -30,7 +30,7 @@ app.config([
 			});
             
 		$locationProvider.html5Mode({
-			enabled: false,
+			enabled: true,
 			requireBase: true,
 			rewriteLinks: true,
 		});

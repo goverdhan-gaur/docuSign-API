@@ -4,8 +4,9 @@ app.controller("mainController", [
 	"$location",
 	"$http",
 	"$rootScope",
-
 	"$cookies",
 
-	function ($scope, $log, $location, $http, $rootScope, $cookies) {},
+	function ($scope, $log, $location, $http, $rootScope, $cookies) {
+		$log.info($location);
+	},
 ]);
