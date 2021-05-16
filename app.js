@@ -1,4 +1,4 @@
-var app = angular.module("docusignAuth", ["ngRoute", "ngCookies", "ngResource"]);
+var app = angular.module("app", ["ngRoute", "ngCookies", "ngResource"]);
 
 app.controller("landing", function($scope){
     

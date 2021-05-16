@@ -1,1 +1,50 @@
-<h3>this is a sample user page</h3>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">DocuSignAPI</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item nav-link border border-success rounded  active">
+                {{userInfo.name}}
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-danger my-2 my-sm-0" type="submit" ng-click="logout()">Logout</button>
+        </form>
+    </div>
+</nav>
+<div class="row my-3">
+    <div class="col-4">
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Name : {{userInfo.name}}</li>
+                <li class="list-group-item">Email : {{userInfo.email}}</li>
+                <li class="list-group-item">Created : {{userInfo.created.substring(0,10)}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card h-100 border-info">
+            <div class="m-2" ng-repeat="(index, env) in envelops" ng-show="env.status != 'created'">
+                <li class="list-group-item  align-items-start">
+                    <div class="my-2 me-auto">
+                        <h5 class="fw-bold">{{env.subject}}</h5>
+                        <div class="info w-100 d-flex  justify-content-between">
+                            <span>
+                                Sent by: {{env.senderEmail}}
+                            </span>
+                            <span>
+                                Last Modified: {{env.lastModifiedDateTime.substring(0,10)}}
+                            </span>
+                        </div>
+                        <span>
+                            Recipients: <span ng-repeat="rec in recipients[index]">
+                                {{rec.name}}
+                            </span>
+                        </span>
+                        <br>
+                        <span class="badge text-light p-2" ng-class="{'bg-warning': env.status == 'sent', 'bg-success': env.status == 'completed'}">{{env.status}}</span>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>

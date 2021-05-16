@@ -29,12 +29,12 @@ app.config([
 				controller: "authController",
 			})
 			.when("/index.html", {
-				templateUrl: "views/landing.htm",
-				controller: "testController",
-			})
-			.when("/user/:account_id", {
 				templateUrl: "views/user.htm",
-				controller: "user",
+				controller: "mainController",
+			})
+			.when("/logout", {
+				templateUrl: "views/logout.htm",
+				controller: "logoutController",
 			});
 
 		$locationProvider.html5Mode({
