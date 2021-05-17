@@ -3,16 +3,16 @@ app.controller("mainController", [
 	"$log",
 	"$location",
 	"$http",
-	"$rootScope",
 	"$cookies",
 	"$window",
-	"$route",
 
-	function ($scope, $log, $location, $http, $rootScope, $cookies, $window,$route) {
-		// storing code in a variable
-		
+	function ($scope, $log, $location, $http, $cookies, $window) {
+		$scope.refresh = function () {
+			$location.path("/");
+		};
 		$scope.code = $cookies.get("code");
 		$scope.access_token = $cookies.get("access_token");
+		$scope.account_id = $cookies.get("account_id");
 		$scope.recipients = [];
 		if ($scope.code && $scope.access_token) {
 			$window.location.href = "#/index.html";
@@ -20,6 +20,20 @@ app.controller("mainController", [
 
 		console.log($scope.code);
 		console.log($scope.access_token);
+
+		$scope.CheckStatus = function (arg) {
+			console.log(arg);
+			if (arg == "voided") {
+				return true;
+			}
+			if (arg == "created") {
+				return true;
+			}
+
+			if (arg == "template") {
+				return true;
+			}
+		};
 		// get user
 		$http({
 			url: "https://account-d.docusign.com/oauth/userinfo",
@@ -28,15 +42,13 @@ app.controller("mainController", [
 				Authorization: `Bearer ${$scope.access_token}`,
 			},
 		}).then(function (response) {
-			// $cookies.put("account_id", response.data);
 			$scope.userInfo = response.data;
 			$cookies.put("account_id", response.data.accounts[0].account_id);
-			// $route.reload();
 		});
 
 		// get folders
 		$http({
-			url: `https://demo.docusign.net/restapi/v2/accounts/${$cookies.get(
+			url: `https://demo.docusign.net/restapi/v2.1/accounts/${$cookies.get(
 				"account_id"
 			)}/search_folders/all`,
 			method: "GET",
@@ -44,7 +56,6 @@ app.controller("mainController", [
 				Authorization: `Bearer ${$scope.access_token}`,
 			},
 		}).then(function (response) {
-			$log.warn(response.data);
 			$log.warn(response.data.folderItems);
 			for (let i = 0; i < response.data.folderItems.length; i++) {
 				$log.warn(response.data.folderItems[i].envelopeId);
@@ -54,32 +65,26 @@ app.controller("mainController", [
 					)}/envelopes/${response.data.folderItems[i].envelopeId}/recipients`,
 					method: "GET",
 					headers: {
+						Accept: "Content-Type: application/json",
 						Authorization: `Bearer ${$scope.access_token}`,
 					},
 				}).then(function (data) {
 					$scope.recipients[i] = data.data.signers;
-					// $route.reload();
 				});
 			}
 			$scope.envelops = response.data.folderItems;
 		});
 
-		// get envelope
-		$scope.getDoc = function (env) {
-			$http({
-				url: `https://demo.docusign.net/restapi/v2/accounts/${$cookies.get(
+		//send envelopes
+		$scope.send = function (evnID) {
+			console.log(
+				`https://demo.docusign.net/restapi/v2/accounts/${$cookies.get(
 					"account_id"
-				)}/envelopes/${env}/documents`,
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${$scope.access_token}`,
-				},
-			}).then(function (response) {
-				$log.warn(response);
-				// $route.reload();
-			});
+				)}/envelopes`
+			);
+			$location.path("/send/" + evnID);
 		};
-		//
+
 		$scope.envBase = `https://demo.docusign.net/restapi/v2/accounts/${$cookies.get(
 			"account_id"
 		)}`;

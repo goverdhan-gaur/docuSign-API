@@ -2,19 +2,11 @@ app.config([
 	"$locationProvider",
 	"$routeProvider",
 	"$qProvider",
-	"$resourceProvider",
-	"$httpProvider",
 
-	function (
-		$locationProvider,
-		$routeProvider,
-		$qProvider,
-		$resourceProvider,
-		$httpProvider
-	) {
+	function ($locationProvider, $routeProvider, $qProvider) {
 		$qProvider.errorOnUnhandledRejections(false);
 		$locationProvider.hashPrefix("");
-
+		// Setting Routes
 		$routeProvider
 			.when("/", {
 				templateUrl: "views/landing.htm",
@@ -35,8 +27,13 @@ app.config([
 			.when("/logout", {
 				templateUrl: "views/logout.htm",
 				controller: "logoutController",
+			})
+			.when("/send/:env", {
+				templateUrl: "views/send.htm",
+				controller: "sendController",
 			});
 
+			// 
 		$locationProvider.html5Mode({
 			enabled: false,
 			requireBase: true,

@@ -22,8 +22,9 @@
         </div>
     </div>
     <div class="col-8">
-        <div class="card h-100 border-info">
-            <div class="m-2" ng-repeat="(index, env) in envelops" ng-show="env.status != 'created'">
+        <button class="btn btn-info" ng-click="refresh()" ng-hide="envelops">Get Documents</button>
+        <div class="card h-100 border-info" ng-show="envelops">
+            <div class="m-2" ng-repeat="(index, env) in envelops" ng-hide="CheckStatus(env.status)">
                 <li class="list-group-item  align-items-start">
                     <div class="my-2 me-auto">
                         <h5 class="fw-bold">{{env.subject}}</h5>
@@ -41,7 +42,12 @@
                             </span>
                         </span>
                         <br>
-                        <span class="badge text-light p-2" ng-class="{'bg-warning': env.status == 'sent', 'bg-success': env.status == 'completed'}">{{env.status}}</span>
+                        <span class="badge text-light p-1 "
+                            ng-class="{'bg-warning': env.status == 'sent', 'bg-success': env.status == 'completed','bg-secondary': env.status == 'voided'}">{{env.status}}</span>
+
+                        <a class="badge btn btn-info " href="https://appdemo.docusign.com/api/accounts/{{account_id}}/envelopes/{{env.envelopeId}}/documents/1
+                        ">Download</a>
+                        <button class="badge btn btn-warning " ng-click="send(env.envelopeId)">SEND</button>
                     </div>
                 </li>
             </div>
